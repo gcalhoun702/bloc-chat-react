@@ -16,17 +16,17 @@ class RoomList extends Component {
     this.roomsRef.on('child_added', snapshot => {
       const room = snapshot.val();
       room.key = snapshot.key;
-      this.setState({ rooms: this.state.rooms.concat( room) });
+      this.setState({ rooms: this.state.rooms.concat(room) });
     });
   }
+
 
 render () {
   return (
     <section>
 {this.state.rooms.map((room, index) =>
   <p className="roomLists" key={index}>{room.name}</p>
-
-   )
+    )
   }
     </section>
   );

@@ -12,7 +12,7 @@ var config = {
     storageBucket: "bloc-chat-c460d.appspot.com",
     messagingSenderId: "828708485035"
   };
-  firebase.initializeApp(config);
+  const fb=firebase.initializeApp(config);
 
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
         <h1>Bloc Chat</h1>
-          <RoomList firebase={firebase} />
+          <RoomList firebase={fb} />
         </header>
       </div>
     );
