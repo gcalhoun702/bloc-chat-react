@@ -6,11 +6,11 @@ class RoomList extends Component {
     super(props);
 
     this.state = {
-      rooms: []
+      rooms: [],
+      newRoom: ''
     };
 
     this.roomsRef = this.props.firebase.database().ref('rooms');
-    this.handleClick=this.handleClick.bind(this);
     this.handleNewRoomChange=this.handleNewRoomChange.bind(this);
     this.handleSubmit=this.handleSubmit.bind(this);
     this.createRoom=this.createRoom.bind(this);
@@ -24,49 +24,47 @@ class RoomList extends Component {
     });
   }
 
-  handleClick(index) {
-    this.state.rooms(index)
-  }
 
 handleNewRoomChange(e) {
+  e.preventDefault();
   this.setState({
-    newRoomName: e.target.value,
+    newRoom: e.target.value
   });
 }
 
 handleSubmit(e) {
   e.preventDefault();
-  this.createRoom(this.state.newRoomName);
+  const newRoom= {newRoom: this.state.newRoom};
 }
 
-  createRoom(newRoomName) {
+  createRoom(e) {
+    e.preventDefault();
     this.roomsRef.push({
-    name: newRoomName
+    name: this.state.newRoom
   });
-  this.setState({newRoomName: ''});
+  this.setState({newRoom: ''});
 }
 
 
 
 render () {
   return (
-   <section className="room-list">
-     {this.state.rooms.map((room, index) =>
-       <p className="roomLists" key={index} onClick={() => this.handleClick(index)}>
-       {room.name}
-       </p>
-     )
-   }
-   <div>
-     <form id="create-room" onSubmit={(e) => this.handleSubmit(e)} >
-      <input type="text" value={this.state.newRoomName}
+   <div className="sidebar">
+     {this.state.rooms.map((room, key) =>
+       <div className="room-list" key={room, key}>
+       <button id="rooms-button" onClick={() => this.props.setActiveRoom(room)}>
+       {room.name}</button>
+       </div>
+     )}
+     <form onSubmit={(e) => this.handleSubmit(e)} >
+      <input id="submit-field" type="text" value={this.state.newRoom}
         onChange={(e) => this.handleNewRoomChange(e)}  />
-      <input type="submit" />
+      <button className="btn-newRoom" onClick={this.createRoom}>Submit</button>
      </form>
     </div>
-  </section>
 );
  }
+
 }
 
 
